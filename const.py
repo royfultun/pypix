@@ -6,3 +6,7 @@ TRANSP = (250, 250, 250)
 #Window Flags
 WIN_HORIZONTAL = 1
 WIN_VERTICAL = 2
+
+#Images
+#Image01
+#Image02
