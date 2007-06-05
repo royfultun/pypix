@@ -36,24 +36,77 @@ class puzzlePoint(pygame.sprite.Sprite):
 			)
 		return p
 		
-# class numBar(pygame.sprite.Sprite):
-	# def __init__(self, pos, list = ['0'], size = 16, offset = (0, 0), flags = 1):
-		# pygame.sprite.Sprite.__init__(self)
-		# self.list = list
-		# self.flags = flags
-		# self.font = pygame.font.SysFont('tahoma', size - 2)
-		# dem = (lambda f: f & WIN_HORIZONTAL and (50, size) or (size, 50))(flags)
-		# self.icon = pygame.Surface(dem)
-		# self.rect = (pos, dem)
+class numBar(pygame.sprite.Sprite):
+	def __init__(self, pos, nums = ['0', '1', '12', '3'], size = 16, offset = (0, 0), flags = 2):
+		pygame.sprite.Sprite.__init__(self)
+		self.nums = nums
+		self.flags = flags
+		self.size = size
+		self.text = pygame.font.SysFont('tahoma', size - 2)
+		if self.flags & WIN_HORIZONTAL:
+			dim = (100, size)
+			self.nums.reverse()
+		else:
+			dim = (size, 100)
+			self.nums.reverse()
+		self.icon = pygame.Surface(dim)
+		self.rect = pygame.Rect(pos, dim)
+		self.rect.topleft = self.set_rect(pos)
 		
-	# def update:
-		# font_rect = pygame.Rect(
-			# self.rect.topleft, 
-			# (lambda f: f & WIN_HORIZONTAL and (, self.rect.height) or (size, 50))(flags)
-		# )
-		# for n in self.list:
+	def update(self):
+		self.icon.fill(WHITE)
+		if self.flags & WIN_HORIZONTAL:
+			joined = '  '.join(self.nums)
+			dim = self.text.size(joined)
+			font_rect = self.icon.get_rect()
+			font_rect = pygame.Rect(
+				((font_rect.right - dim[0]), font_rect.top - 1),
+				dim
+			)
+			text = self.text.render(joined, True, BLACK)
+			self.icon.blit(text, font_rect)
+
+		else:
+			for i in range(len(self.nums)):
+				dim = self.text.size(self.nums[i])
+				font_rect = self.icon.get_rect()
+				font_rect = pygame.Rect(
+					(font_rect.left, (font_rect.bottom - (self.text.get_linesize() * (i + 1)))),
+					dim
+				)
+				text = self.text.render(self.nums[i], True, BLACK)
+				self.icon.blit(text, font_rect)
+				
+	def set_rect(self, pos):
+		p = []
+		if self.flags & WIN_HORIZONTAL:
+			p.append
+		for i in range(2):
+			point = pos[i]
+			p.append(
+				((self.size + 1) * point) + \
+				(lambda i: ((i / 5) and i > 0) and 1 or 0)(point)
+			)
+		return p
+				
+				
+		# for i in range(len(self.nums)):
+			# dim = self.text.size(self.nums[i])
+			# font_rect = self.icon.get_rect()
+			# font_rect = pygame.Rect(
+				# self.if_horizontal(
+					# ((font_rect.right - ((self.size + len(self.nums[i])) * (i + 1))), font_rect.top - 1),
+					# (font_rect.left, (font_rect.bottom - dim[1]))
+				# ),
+				# dim
+			# )
+			# text = self.text.render(self.nums[i], True, BLACK)
 			
-			# self.icon.blit
+	def if_horizontal(self, horizontal, vertical):
+		if self.flags & WIN_HORIZONTAL:
+			return horizontal
+		return vertical
+		
 		
 
 		
