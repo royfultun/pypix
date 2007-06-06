@@ -6,3 +6,11 @@ def create_screen(size = (640, 480)):
 	
 def load_image(img):
 	return pygame.image.load(img).convert()
+	
+def add_points(seta, setb):
+	"Add two sets of points together"
+	return map((lambda a, b: a + b), seta, setb)
+	
+def sub_points(seta, setb):
+	"Subtract two sets of points"
+	return map((lambda a, b: a - b), seta, setb)

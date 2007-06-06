@@ -16,23 +16,28 @@ class PyPixMain():
 		self.width = width
 		self.height = height
 		self.screen = create_screen((self.width, self.height))
-		self.object_layer = pygame.Rect(
-			(128,64),
-			((self.width - 128), (self.height - 64))
-		)
 
 		self.objects = []
 		self.numbars = []
 		
-		#self.numbars.append(numBar((16, 16)))
-		#self.numbars.append(numBar((32, 32), flags = WIN_HORIZONTAL))
-		
-		
 		for i in range(10):
-			#self.numbars.append(numBar([0, 16 * i], flags = WIN_HORIZONTAL))
-			#self.numbars.append(numBar([16 * i, 0], flags = WIN_VERTICAL))
+			self.numbars.append(numBar(
+				[0, i], 
+				flags = WIN_HORIZONTAL,
+				offset = [1,103]
+			))
+			self.numbars.append(numBar(
+				[i, 0], 
+				flags = WIN_VERTICAL,
+				offset = [103,1]
+			))
 			for j in range(10):
-				self.objects.append(puzzlePoint([i, j], offset = (128, 64)))
+				self.objects.append(
+					puzzlePoint(
+						[i, j], 
+						offset = add_points(BOARD.topleft, [103,103])
+					)
+				)
 	
 	def mainLoop(self):
 		while 1:
@@ -45,7 +50,7 @@ class PyPixMain():
 					mouse_pos = event.pos
 					
 			self.screen.fill(WHITE)
-			self.screen.fill(BLACK, self.object_layer)
+			self.screen.fill(BLACK, BOARD)
 			
 			for bar in self.numbars:
 				bar.update()

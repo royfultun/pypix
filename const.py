@@ -4,8 +4,8 @@ pygame.init()
 
 #Window Settings
 WIDTH, HEIGHT = [800, 600]
-x, y = [200, 100]
-BOARD = pygame.Rect([x, y], [(HEIGHT - y), (WIDTH - x)])
+x, y = [150, 100]
+BOARD = pygame.Rect([x, y], [(WIDTH - x), (HEIGHT - y)])
 
 #Colors
 BLACK = (0, 0, 0)
