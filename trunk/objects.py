@@ -1,11 +1,12 @@
 import pygame
 from pygame.locals import *
 from const import *
+from tools import *
 
 cstyle = (lambda t, a, b: t and a or b)
 
 class puzzlePoint(pygame.sprite.Sprite):
-	def __init__(self, pos, size = 16, offset = (0, 0), state = False):
+	def __init__(self, pos, size = 16, offset = [0, 0], state = False):
 		pygame.sprite.Sprite.__init__(self)
 		self.size = size
 		self.offset = offset
@@ -31,17 +32,18 @@ class puzzlePoint(pygame.sprite.Sprite):
 			point = pos[i]
 			p.append(
 				((self.size + 1) * point) + \
-				(lambda i: ((i / 5) and i > 0) and 1 or 0)(point) + \
-				self.offset[i]
+				(lambda i: ((i / 5) and i > 0) and 1 or 0)(point) #+ \
+				#self.offset[i]
 			)
-		return p
+		return add_points(p, self.offset)
 		
 class numBar(pygame.sprite.Sprite):
-	def __init__(self, pos, nums = ['0', '1', '12', '3'], size = 16, offset = (0, 0), flags = 2):
+	def __init__(self, pos, nums = ['0', '1', '12', '3'], size = 16, offset = [0, 0], flags = 2):
 		pygame.sprite.Sprite.__init__(self)
 		self.nums = nums
 		self.flags = flags
 		self.size = size
+		self.offset = offset
 		self.text = pygame.font.SysFont('tahoma', size - 2)
 		if self.flags & WIN_HORIZONTAL:
 			dim = (100, size)
@@ -78,16 +80,21 @@ class numBar(pygame.sprite.Sprite):
 				self.icon.blit(text, font_rect)
 				
 	def set_rect(self, pos):
-		p = []
 		if self.flags & WIN_HORIZONTAL:
-			p.append
-		for i in range(2):
-			point = pos[i]
-			p.append(
-				((self.size + 1) * point) + \
-				(lambda i: ((i / 5) and i > 0) and 1 or 0)(point)
-			)
-		return p
+			p = [
+				BOARD.left,
+				((self.size + 1) * pos[1]) + \
+				(lambda i: ((i / 5) and i > 0) and 1 or 0)(pos[1]) + \
+				BOARD.top
+			]
+		else:
+			p = [
+				((self.size + 1) * pos[0]) + \
+				(lambda i: ((i / 5) and i > 0) and 1 or 0)(pos[0]) + \
+				BOARD.left,
+				BOARD.top
+			]
+		return add_points(p, self.offset)
 				
 				
 		# for i in range(len(self.nums)):
