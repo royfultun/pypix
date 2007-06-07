@@ -38,18 +38,18 @@ class puzzlePoint(pygame.sprite.Sprite):
 		return add_points(p, self.offset)
 		
 class numBar(pygame.sprite.Sprite):
-	def __init__(self, pos, nums = ['0', '1', '12', '3'], size = 16, offset = [0, 0], flags = 2):
+	def __init__(self, pos, size = 16, nums = ['0', '1', '12', '3'], offset = [0, 0], flags = 2):
 		pygame.sprite.Sprite.__init__(self)
 		self.nums = nums
 		self.flags = flags
 		self.size = size
 		self.offset = offset
-		self.text = pygame.font.SysFont('tahoma', size - 2)
+		self.text = pygame.font.SysFont('tahoma', 12)
 		if self.flags & WIN_HORIZONTAL:
-			dim = (100, size)
+			dim = (96, size)
 			self.nums.reverse()
 		else:
-			dim = (size, 100)
+			dim = (size, 96)
 			self.nums.reverse()
 		self.icon = pygame.Surface(dim)
 		self.rect = pygame.Rect(pos, dim)
@@ -62,7 +62,7 @@ class numBar(pygame.sprite.Sprite):
 			dim = self.text.size(joined)
 			font_rect = self.icon.get_rect()
 			font_rect = pygame.Rect(
-				((font_rect.right - dim[0]), font_rect.top - 1),
+				((font_rect.right - dim[0]) - 5, (font_rect.height / 2) - (self.text.get_height() / 2)),
 				dim
 			)
 			text = self.text.render(joined, True, BLACK)
@@ -73,7 +73,7 @@ class numBar(pygame.sprite.Sprite):
 				dim = self.text.size(self.nums[i])
 				font_rect = self.icon.get_rect()
 				font_rect = pygame.Rect(
-					(font_rect.left, (font_rect.bottom - (self.text.get_linesize() * (i + 1)))),
+					((font_rect.width / 2) - (dim[0] / 2), (font_rect.bottom - (self.text.get_linesize() * (i + 1)))),
 					dim
 				)
 				text = self.text.render(self.nums[i], True, BLACK)
@@ -95,19 +95,6 @@ class numBar(pygame.sprite.Sprite):
 				BOARD.top
 			]
 		return add_points(p, self.offset)
-				
-				
-		# for i in range(len(self.nums)):
-			# dim = self.text.size(self.nums[i])
-			# font_rect = self.icon.get_rect()
-			# font_rect = pygame.Rect(
-				# self.if_horizontal(
-					# ((font_rect.right - ((self.size + len(self.nums[i])) * (i + 1))), font_rect.top - 1),
-					# (font_rect.left, (font_rect.bottom - dim[1]))
-				# ),
-				# dim
-			# )
-			# text = self.text.render(self.nums[i], True, BLACK)
 			
 	def if_horizontal(self, horizontal, vertical):
 		if self.flags & WIN_HORIZONTAL:

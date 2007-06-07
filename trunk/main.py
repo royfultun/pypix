@@ -2,6 +2,7 @@ import pygame
 import os, sys
 
 from pygame.locals import *
+from math import *
 #from const import *
 from tools import *
 from objects import *
@@ -20,22 +21,29 @@ class PyPixMain():
 		self.objects = []
 		self.numbars = []
 		
+		size = min((GRID.height / 10), (GRID.width / 10), 32)
+		
 		for i in range(10):
+			#Horizontal Bars
 			self.numbars.append(numBar(
 				[0, i], 
+				size,
 				flags = WIN_HORIZONTAL,
-				offset = [1,103]
+				offset = [1,99]
 			))
+			#Vertical Bars
 			self.numbars.append(numBar(
 				[i, 0], 
+				size,
 				flags = WIN_VERTICAL,
-				offset = [103,1]
+				offset = [99,1]
 			))
 			for j in range(10):
 				self.objects.append(
 					puzzlePoint(
 						[i, j], 
-						offset = add_points(BOARD.topleft, [103,103])
+						size,
+						offset = add_points(BOARD.topleft, [99,99])
 					)
 				)
 	
@@ -50,7 +58,9 @@ class PyPixMain():
 					mouse_pos = event.pos
 					
 			self.screen.fill(WHITE)
-			self.screen.fill(BLACK, BOARD)
+			self.screen.fill(BLACK, GRID)
+			for i in range(2):
+				self.screen.fill(BLACK, BARS[i])
 			
 			for bar in self.numbars:
 				bar.update()
