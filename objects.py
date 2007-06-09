@@ -6,7 +6,7 @@ from tools import *
 cstyle = (lambda t, a, b: t and a or b)
 
 class puzzlePoint(pygame.sprite.Sprite):
-	def __init__(self, pos, size = 16, offset = [0, 0], state = False):
+	def __init__(self, pos, size = 16, state = False, offset = [0, 0]):
 		pygame.sprite.Sprite.__init__(self)
 		self.size = size
 		self.offset = offset
@@ -32,13 +32,12 @@ class puzzlePoint(pygame.sprite.Sprite):
 			point = pos[i]
 			p.append(
 				((self.size + 1) * point) + \
-				(lambda i: ((i / 5) and i > 0) and 1 or 0)(point) #+ \
-				#self.offset[i]
+				((1 * (point / 5)) or 0)
 			)
 		return add_points(p, self.offset)
 		
 class numBar(pygame.sprite.Sprite):
-	def __init__(self, pos, size = 16, nums = ['0', '1', '12', '3'], offset = [0, 0], flags = 2):
+	def __init__(self, pos, size = 16, nums = ['0', '1', '12', '3'], flags = 2, offset = [0, 0]):
 		pygame.sprite.Sprite.__init__(self)
 		self.nums = nums
 		self.flags = flags
@@ -47,7 +46,6 @@ class numBar(pygame.sprite.Sprite):
 		self.text = pygame.font.SysFont('tahoma', 12)
 		if self.flags & WIN_HORIZONTAL:
 			dim = (96, size)
-			self.nums.reverse()
 		else:
 			dim = (size, 96)
 			self.nums.reverse()
@@ -82,17 +80,17 @@ class numBar(pygame.sprite.Sprite):
 	def set_rect(self, pos):
 		if self.flags & WIN_HORIZONTAL:
 			p = [
-				BOARD.left,
+				(BOARD.left + 1),
 				((self.size + 1) * pos[1]) + \
-				(lambda i: ((i / 5) and i > 0) and 1 or 0)(pos[1]) + \
-				BOARD.top
+				((1 * (pos[1] / 5)) or 0) + \
+				(GRID.top + 1)
 			]
 		else:
 			p = [
 				((self.size + 1) * pos[0]) + \
-				(lambda i: ((i / 5) and i > 0) and 1 or 0)(pos[0]) + \
-				BOARD.left,
-				BOARD.top
+				((1 * (pos[0] / 5)) or 0) + \
+				(GRID.left + 1),
+				(BOARD.top + 1)
 			]
 		return add_points(p, self.offset)
 			
