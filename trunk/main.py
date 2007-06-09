@@ -2,7 +2,6 @@ import pygame
 import os, sys
 
 from pygame.locals import *
-from math import *
 #from const import *
 from tools import *
 from objects import *
@@ -21,24 +20,34 @@ class PyPixMain():
 		self.objects = []
 		self.numbars = []
 		
-		size = min((GRID.height / 10), (GRID.width / 10), 32)
+		board = DEFAULT['boat']
 		
-		for i in range(10):
+		rows, columns = len(board[0]), len(board)
+		row_list, column_list = get_grouplist(board)
+		
+		
+		size = min((GRID.height / rows), (GRID.width / columns), 32)
+		
+		for i in range(columns):
 			#Horizontal Bars
 			self.numbars.append(numBar(
 				[0, i], 
 				size,
-				flags = WIN_HORIZONTAL,
-				offset = [1,99]
+				row_list[i],
+				flags = WIN_HORIZONTAL#,
+				#offset = [1,99]
 			))
+		
+		for i in range(rows):
 			#Vertical Bars
 			self.numbars.append(numBar(
 				[i, 0], 
 				size,
-				flags = WIN_VERTICAL,
-				offset = [99,1]
+				column_list[i],
+				flags = WIN_VERTICAL#,
+				#offset = [99,1]
 			))
-			for j in range(10):
+			for j in range(columns):
 				self.objects.append(
 					puzzlePoint(
 						[i, j], 
