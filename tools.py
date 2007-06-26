@@ -52,6 +52,7 @@ def get_grouplist(board):
 				del y_list[column][-1]
 		if len(x_list[row]) > 1 and not x_list[row][-1]:
 			del x_list[row][-1]
-			
+		
+	#Convert the arrays to strings so pygame.font can parse them.
 	return [[[str(i) for i in l] for l in x_list], [[str(i) for i in l] for l in y_list]]
 	

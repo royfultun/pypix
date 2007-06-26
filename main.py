@@ -2,7 +2,7 @@ import pygame
 import os, sys
 
 from pygame.locals import *
-#from const import *
+from const import *
 from tools import *
 from objects import *
 
@@ -20,7 +20,7 @@ class PyPixMain():
 		self.objects = []
 		self.numbars = []
 		
-		board = DEFAULT['boat']
+		board = PACK_DEFAULT['boat']
 		
 		rows, columns = len(board[0]), len(board)
 		row_list, column_list = get_grouplist(board)
